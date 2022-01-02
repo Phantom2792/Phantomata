@@ -28,6 +28,35 @@ class DFA:
 			print(path+"\nExecution Successful")
 		else:
 			print(path+"\nInvalid String -- String is not in language")
+class Mealy:
+	"""Defines Mealy Machine"""
+	
+	def __init__(self, Q, Sig, iniQ, O,Del):
+		super(Mealy, self).__init__()
+		self.states = Q
+		self.ip_alphabet = Sig
+		self.initState = iniQ
+		self.op_alphabet = O
+		self.Trans = Del
+	def path(self, ip_str):
+		nxt = self.initState
+		path = ""
+		out = ""
+		path+=nxt
+		for i in str(ip_str):
+			nxt,op = self.Trans[nxt][int(i)]
+			path+='->'+nxt
+			out+=op
+		return path,out
+	def step(self, ip_str):
+		nxt = self.initState
+		for i in str(ip_str):
+			nxt,op = self.Trans[nxt][int(i)]
+		return nxt
+	def eval(self, ip_str):
+		final = self.step(ip_str)
+		path,out = self.path(ip_str)
+		print(path+"\n"+out)
 
 def make_dfa(Del,iniQ="*",finalStates="*",fa_type="DFA"):
 	q = list(Del.keys())
@@ -53,6 +82,8 @@ if __name__ == "__main__":
         a = [0,1]
         i = 'A'
         f = 'C'
-        T = {'A':{0:'B',1:'A'},'B':{0:'B',1:'C'},'C':{0:'B',1:'A'}}
+        T1 = {'A':{0:'B',1:'A'},'B':{0:'B',1:'C'},'C':{0:'B',1:'A'}}
         print("you are here")
-        example_dfa = DFA(q,a,i,f,T)
+        example_dfa = DFA(q,a,i,f,T1)
+        T2 = {'A':{0:('B','b'),1:('A','a')},'B':{0:('B','b'),1:('A','a')}}
+        example_mealy = Mealy(q,a,i,['a','b'],T2)
