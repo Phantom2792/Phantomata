@@ -8,6 +8,13 @@ class DFA:
 		self.initState = iniQ
 		self.finalStates = F
 		self.Trans = Del
+	def ip_valid(self,ip_str):
+		for i in str(ip_str):
+			if int(i) in self.alphabet:
+				continue
+			else:
+				return i
+		return True
 	def path(self, ip_str):
 		nxt = self.initState
 		path = ""
@@ -22,12 +29,15 @@ class DFA:
 			nxt = self.Trans[nxt][int(i)]
 		return nxt
 	def eval(self, ip_str):
-		final = self.step(ip_str)
-		path = self.path(ip_str)
-		if final in self.finalStates:
-			print(path+"\nExecution Successful")
+		if self.ip_valid(ip_str) != True:
+			print("Invalid inputs")
 		else:
-			print(path+"\nInvalid String -- String is not in language")
+			final = self.step(ip_str)
+			path = self.path(ip_str)
+			if final in self.finalStates:
+				print(path+"\nExecution Successful")
+			else:
+				print(path+"\nInvalid String -- String is not in language")
 class Mealy:
 	"""Defines Mealy Machine"""
 	
@@ -38,6 +48,13 @@ class Mealy:
 		self.initState = iniQ
 		self.op_alphabet = O
 		self.Trans = Del
+	def ip_valid(self,ip_str):
+		for i in str(ip_str):
+			if int(i) in self.ip_alphabet:
+				continue
+			else:
+				return i
+		return True
 	def path(self, ip_str):
 		nxt = self.initState
 		path = ""
@@ -53,11 +70,23 @@ class Mealy:
 		for i in str(ip_str):
 			nxt,op = self.Trans[nxt][int(i)]
 		return nxt
+	def op_valid(self, out):
+		for i in out:
+			if i in self.op_alphabet:
+				continue
+			else:
+				return i
+		return True
 	def eval(self, ip_str):
-		final = self.step(ip_str)
-		path,out = self.path(ip_str)
-		print(path+"\n"+out)
-
+		if self.ip_valid(ip_str) != True:
+			print("Invalid inputs")
+		else:
+			path,out = self.path(ip_str)
+			if self.op_valid(out) == True:
+				print(path+"\n"+out)
+			else:
+				print("~ERROR IN TRANSITION FUNCTION~\n'"+self.op_valid(out)+"' Is not in output alphabet")
+	
 def make_dfa(Del,iniQ="*",finalStates="*",fa_type="DFA"):
 	q = list(Del.keys())
 	if iniQ == '*':
