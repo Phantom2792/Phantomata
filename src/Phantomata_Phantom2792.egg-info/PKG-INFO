@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: Phantomata-Phantom2792
+Version: 0.0.1
+Summary: A Python Library to formulate Turing Machines and other automata.
+Home-page: https://github.com/Phantom2792/Phantomata
+Author: Phantom2792
+Author-email: shobhit.mudkhedkar@gmail.com
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/Phantom2792/Phantomata/issues
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Phantomata
+A Python Library to formulate Turing Machines and other models based on automata theory
+
+

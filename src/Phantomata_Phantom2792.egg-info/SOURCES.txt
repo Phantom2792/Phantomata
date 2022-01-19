@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/Phantomata/FA.py
+src/Phantomata/__init__.py
+src/Phantomata_Phantom2792.egg-info/PKG-INFO
+src/Phantomata_Phantom2792.egg-info/SOURCES.txt
+src/Phantomata_Phantom2792.egg-info/dependency_links.txt
+src/Phantomata_Phantom2792.egg-info/top_level.txt

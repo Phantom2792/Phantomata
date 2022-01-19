@@ -63,7 +63,7 @@ class Mealy:
 		for i in str(ip_str):
 			nxt,op = self.Trans[nxt][int(i)]
 			path+='->'+nxt
-			out+=op
+			out+=str(op)
 		return path,out
 	def step(self, ip_str):
 		nxt = self.initState
@@ -86,8 +86,59 @@ class Mealy:
 				print(path+"\n"+out)
 			else:
 				print("~ERROR IN TRANSITION FUNCTION~\n'"+self.op_valid(out)+"' Is not in output alphabet")
+
+class Moore:
+	"""Defines Mealy Machine"""
 	
-def make_dfa(Del,iniQ="*",finalStates="*",fa_type="DFA"):
+	def __init__(self, Q, Sig, iniQ, O,Del):
+		super(Moore, self).__init__()
+		self.states = Q
+		self.ip_alphabet = Sig
+		self.initState = iniQ
+		self.op_alphabet = O
+		self.Trans = Del
+	def ip_valid(self,ip_str):
+		for i in str(ip_str):
+			if int(i) in self.ip_alphabet:
+				continue
+			else:
+				return i
+		return True
+	def path(self, ip_str):
+		nxt = self.initState
+		path = ""
+		out = ""
+		path+=nxt
+		for i in str(ip_str):
+			nxt = self.Trans[nxt][0][int(i)]
+			op = self.Trans[nxt][1]
+			path+='->'+nxt
+			out+=str(op)
+		return path,out
+	def step(self, ip_str):
+		nxt = self.initState
+		for i in str(ip_str):
+			nxt = self.Trans[nxt][0][int(i)]
+		return nxt
+	def op_valid(self, out):
+		for i in out:
+			if i in self.op_alphabet:
+				continue
+			else:
+				return i
+		return True
+	def eval(self, ip_str):
+		if self.ip_valid(ip_str) != True:
+			print("Invalid inputs")
+		else:
+			path,out = self.path(ip_str)
+			if self.op_valid(out) == True:
+				print(path+"\n"+out)
+			else:
+				print("~ERROR IN TRANSITION FUNCTION~\n'"+self.op_valid(out)+"' Is not in output alphabet")
+
+	
+def make_dfa(Del,iniQ="*",finalStates="*",op_alphabet="*",fa_type="DFA"):
 	q = list(Del.keys())
 	if iniQ == '*':
 		q0 = q[0]
@@ -98,10 +149,15 @@ def make_dfa(Del,iniQ="*",finalStates="*",fa_type="DFA"):
 	else:
 		F = finalStates
 	Sig = list(Del[q0].keys())
-
+	if op_alphabet == '*':
+		op = Sig
+	else:
+		op = op_alphabet
 	args = (q,Sig,q0,F,Del)
 	if fa_type == 'DFA':
 		return DFA(q,Sig,q0,F,Del)
+	elif fa_type == 'Mealy':
+		return Mealy(q,Sig,q0,op,Del)
 	else:
 		return args
 
@@ -116,3 +172,5 @@ if __name__ == "__main__":
         example_dfa = DFA(q,a,i,f,T1)
         T2 = {'A':{0:('B','b'),1:('A','a')},'B':{0:('B','b'),1:('A','a')}}
         example_mealy = Mealy(q,a,i,['a','b'],T2)
+        T3 = {'A':({0:'B',1:'C'},'0'),'B':({0:'B',1:'C'},'1'),'C':({0:'B',1:'C'},'0')}
+        example_moore = Moore(q,a,i,['0','1'],T3)
